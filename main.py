@@ -2,15 +2,16 @@ import sqlite3
 import sys
 
 from PyQt5 import uic
-from PyQt5.QtSql import QSqlDatabase, QSqlTableModel
+from ui_main import Ui_MainWindow
+from ui_addEditCoffeeForm import Ui_Dialog
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QDialog
 
 
-class TableWindow(QMainWindow):
+class TableWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('main.ui', self)
-        self.con = sqlite3.connect('coffee.db')
+        self.setupUi(self)
+        self.con = sqlite3.connect('data/coffee.db')
         self.cur = self.con.cursor()
         self.load_data()
         self.dialog = AddDialog()
@@ -50,10 +51,10 @@ class TableWindow(QMainWindow):
                 self.tableWidget.setItem(i, j, QTableWidgetItem(str(elem)))
 
 
-class AddDialog(QDialog):
+class AddDialog(QDialog, Ui_Dialog):
     def __init__(self):
         super().__init__()
-        uic.loadUi('addEditCoffeeForm.ui', self)
+        self.setupUi(self)
 
     def get_info(self):
         name = self.lineEdit.text()
